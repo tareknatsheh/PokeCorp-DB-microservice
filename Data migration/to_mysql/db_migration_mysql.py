@@ -8,7 +8,7 @@ def read_json_file(file_path: str) -> list[dict]:
 
 def db_init():
     db_password: str = str(config("SQL_DB_PASSWORD"))
-    db_con = pymysql.connect(host="localhost", user="root", password=db_password, database="pokemon")
+    db_con = pymysql.connect(host="localhost", user="root", database="pokemon", password="strong_password", port=3307)
     return db_con
 
 def migrate_pokemons_table(conn, data: list):
@@ -68,18 +68,15 @@ def migrate_pokemon_trainers_table(conn, data: list):
 
 
 def main():
-    json_file_path = "./Data migration/data seed/pokemons_data.json"
+    json_file_path = "Data migration/data seed/pokemons_data.json"
 
     connection = db_init()
     json_data = read_json_file(json_file_path)
-
-    # You can uncomment all of the following function and run them all at once
-    # but I think it's better to uncomment and run one after another:
     
-    # migrate_pokemons_table(connection, json_data)
-    # migrate_trainers_table(connection, json_data)
-    # migrate_types_table(connection, json_data)
-    # migrate_pokemon_trainers_table(connection, json_data)
+    migrate_pokemons_table(connection, json_data)
+    migrate_trainers_table(connection, json_data)
+    migrate_types_table(connection, json_data)
+    migrate_pokemon_trainers_table(connection, json_data)
 
     connection.close()
 

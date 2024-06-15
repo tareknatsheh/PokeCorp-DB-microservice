@@ -16,12 +16,12 @@ def handle_database_errors(func):
         except Error as e:
             # TODO log into a file instead of printing
             print(f"{Error.__name__} error occurred in {func.__name__}: {e}")
-            raise
-
+            raise e
+ 
         except Exception as e:
             # TODO log into a file instead of printing
             print(f"an unexpected error occurred in {func.__name__}: {e}")
-            raise
+            raise e
 
         finally:
             self._after()

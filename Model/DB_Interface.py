@@ -39,13 +39,17 @@ class DB_Interface(ABC):
     @abstractmethod
     def get_trainers_by_pokemon_id(self, pokemon_id: int) -> list[Trainer]:
         pass
+
+    @abstractmethod
+    def delete_pokemon_of_trainer(self, trainer_id: int, pokemon_id: int) -> int:
+        pass
     
     @abstractmethod
     def get_all_trainers(self) -> list[Trainer]:
         pass
     
     @abstractmethod
-    def add_new_pokemon_to_trainer(self, trainer_id: int, new_pokemon: Pokemon) -> Optional[Pokemon]:
+    def add_new_pokemon_to_trainer(self, trainer_id: int, new_pokemon: Pokemon) -> Pokemon:
         pass
 
     @abstractmethod

@@ -31,13 +31,16 @@ class Trainer_Repo:
     def get_all(self) -> list[Trainer]:
         return self.db.get_all_trainers()
     
+    def delete_a_pokemon(self, trainer_id: int, pokemon_id: int) -> Optional[int]:
+        return self.db.delete_pokemon_of_trainer(trainer_id, pokemon_id)
+    
     def get_by_pokemon_id(self, pokemon_id: int) -> list[Trainer]:
         return self.db.get_trainers_by_pokemon_id(pokemon_id)
     
     def is_have_pokemon(self, trainer_id: int, pokemon_id: int) -> bool:
         return self.db.is_trainer_has_pokemon(trainer_id, pokemon_id)
     
-    def add_new_pokemon(self, trainer_id: int, pokemon_id: int) -> Optional[Pokemon]:
+    def add_new_pokemon(self, trainer_id: int, pokemon_id: int) -> Pokemon:
         # 1. check if pokemon exist in our list, If not, return http exception
         pokemon_to_add = self.db.get_pokemon_by_id(pokemon_id)
         if not pokemon_to_add:
@@ -54,6 +57,7 @@ class Trainer_Repo:
         result = self.db.add_new_pokemon_to_trainer(trainer_id, pokemon_to_add)
         if not result:
             raise HTTPException(status_code=status.HTTP_304_NOT_MODIFIED, detail=f"Adding pokemon with id {pokemon_id}, to trainer with id {trainer_id} has failed. Check the logs")
+        return result
     
 class Actions_Repo:
     def __init__(self, db: DB_Interface):

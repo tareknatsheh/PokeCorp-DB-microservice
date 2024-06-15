@@ -88,11 +88,14 @@ class MySql_repo(DB_Interface):
     
     @handle_database_errors
     def get_trainers_by_pokemon_id(self, pokemon_id: int) -> list[Trainer]:
+        print(f"looking for {pokemon_id}")
         if not self.cursor:
             raise Exception("cursor not initialized")
         
         self.cursor.execute(tr_queries.GET_BY_POKEMON_ID, (pokemon_id,))
         result = self.cursor.fetchall()
+
+        print(result)
 
         if not result:
             return []
@@ -133,7 +136,7 @@ class MySql_repo(DB_Interface):
         return True
     
     @handle_database_errors
-    def add_new_pokemon_to_trainer(self, trainer_id: int, pokemon: Pokemon) -> Optional[Pokemon]:
+    def add_new_pokemon_to_trainer(self, trainer_id: int, pokemon: Pokemon) -> Pokemon:
         if not self.cursor:
             raise Exception("cursor not initialized")
         
@@ -181,17 +184,23 @@ class MySql_repo(DB_Interface):
     #     }
 
     @handle_database_errors
-    def remove_relation_between(self, trainer_id, pokemon_id) -> int:
-        query = """
-            DELETE FROM pokemon_trainers
-            WHERE trainer_id = %s AND pokemon_id = %s
-        """
+    def delete_pokemon_of_trainer(self, trainer_id, pokemon_id) -> int:
+        if not self.cursor:
+            raise Exception("cursor not initialized")
+        
+        if not self.db_connection:
+            raise Exception("cursor not initialized")
+        
+        print(f"deleteing {trainer_id}/{pokemon_id}")
 
         if not self.cursor:
             raise Exception("cursor not initialized")
         
-        self.cursor.execute(query, (trainer_id, pokemon_id))
+        self.cursor.execute(tr_queries.DELETE_POKEMON_FROM_TRAINER, (trainer_id, pokemon_id))
         rows_affected = self.cursor.rowcount
+
+        self.db_connection.commit()
+
         return rows_affected
     
     @handle_database_errors
@@ -213,7 +222,8 @@ class MySql_repo(DB_Interface):
             host="localhost",
             user="root",
             password=self.db_password,
-            database="pokemon"
+            database="pokemon",
+            port=3307
         )
         self.cursor = self.db_connection.cursor()
     

@@ -7,6 +7,7 @@ def handle_route_errors(func):
         try:
             return func(*args, **kwargs)
         except HTTPException as http_error:
+            print("We have an http exception, here it is: ", http_error.detail)
             raise http_error
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"an unexpected error occurred in {func.__name__}: {e}")
