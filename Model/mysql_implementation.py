@@ -11,7 +11,9 @@ import Model.sql_queries.trainer_queries as tr_queries
 
 class MySql_repo(DB_Interface):
     def __init__(self):
-        self.db_password: str = str(config("SQL_DB_PASSWORD"))
+        self.db_password: str = str(config("MYSQL_DB_PASSWORD"))
+        self.db_host_name: str = str(config("MYSQL_HOST"))
+        self.db_port: int = int(config("MYSQL_PORT"))
         self.db_connection: Optional[Connection] = None
         self.cursor: Optional[Cursor] = None
     
@@ -219,11 +221,11 @@ class MySql_repo(DB_Interface):
     def _before(self):
         print("connecting to db ......")
         self.db_connection = pymysql.connect(
-            host="localhost",
+            host=self.db_host_name,
             user="root",
             password=self.db_password,
             database="pokemon",
-            port=3307
+            port=self.db_port
         )
         self.cursor = self.db_connection.cursor()
     

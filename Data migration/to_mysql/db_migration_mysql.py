@@ -7,8 +7,17 @@ def read_json_file(file_path: str) -> list[dict]:
 
 
 def db_init():
-    db_password: str = str(config("SQL_DB_PASSWORD"))
-    db_con = pymysql.connect(host="localhost", user="root", database="pokemon", password="strong_password", port=3307)
+    db_password: str = str(config("MYSQL_DB_PASSWORD"))
+    db_host_name: str = str(config("MYSQL_HOST"))
+    db_port: int = int(config("MYSQL_PORT"))
+    
+    db_con = pymysql.connect(
+        host=db_host_name,
+        user="root",
+        database="pokemon",
+        password=db_password,
+        port=db_port
+        )
     return db_con
 
 def migrate_pokemons_table(conn, data: list):
