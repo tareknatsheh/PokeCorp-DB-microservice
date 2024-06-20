@@ -77,7 +77,7 @@ def migrate_pokemon_trainers_table(conn, data: list):
 
 
 def main():
-    json_file_path = "Data migration/data seed/pokemons_data.json"
+    json_file_path = "data_migration/data seed/pokemons_data.json"
 
     connection = db_init()
     json_data = read_json_file(json_file_path)

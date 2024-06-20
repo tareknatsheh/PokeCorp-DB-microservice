@@ -20,6 +20,7 @@ services:
       MYSQL_ROOT_PASSWORD: strong_password
     volumes:
       - pokdb:/data/db
+      - ./data_migration/to_mysql/sql_scripts:/docker-entrypoint-initdb.d
 
 volumes:
   pokdb:
