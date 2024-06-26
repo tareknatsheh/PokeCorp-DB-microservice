@@ -7,7 +7,7 @@ def read_json_file(file_path: str) -> list[dict]:
 
 
 def db_init():  
-    db_con = sqlite3.connect(str(config("SQLITE_DB")))
+    db_con = sqlite3.connect(str(config("SQLITE_DB")) or "pokemons.db")
     return db_con
 
 def migrate_pokemons_table(conn, data: list):
@@ -67,7 +67,7 @@ def migrate_pokemon_trainers_table(conn, data: list):
 
 
 def init_db_from_sql():
-    conn = sqlite3.connect(str(config("SQLITE_DB")))
+    conn = sqlite3.connect(str(config("SQLITE_DB")) or "pokemons.db")
     cursor = conn.cursor()
     with open("data_migration/to_sqlite/sql_scripts/sqlite_pokemon_db_schema.sql", 'r') as sql_file:
         sql_script = sql_file.read()

@@ -181,7 +181,7 @@ class SQLite_repo(DB_Interface):
 
 
     def _before(self):
-        self.db_connection = sqlite3.connect(str(config("SQLITE_DB")))
+        self.db_connection = sqlite3.connect(str(config("SQLITE_DB")) or "pokemons.db")
         self.cursor = self.db_connection.cursor()
     
     def _after(self):
