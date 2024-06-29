@@ -20,7 +20,7 @@ def get_pokemon(type: Optional[str] = None, trainer_id: Optional[int] = None):
     """
     result = None
     if not type or type == "all":
-        if not trainer_id:
+        if not trainer_id or trainer_id == 0:
             # get all pokemons
             result = db.pokemon.get_all()
         else:

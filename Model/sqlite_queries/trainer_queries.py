@@ -8,7 +8,7 @@ GET_BY_POKEMON_ID = """
 GET_ALL = "SELECT id, name, town FROM trainers"
 
 GET_BY_ID = """
-SELECT id, name, town FROM pokemon.trainers
+SELECT id, name, town FROM trainers
 WHERE id = ?
 """
 
@@ -18,7 +18,7 @@ VALUES (?, ?)
 """
 
 GET_TRAINER_POKEMON = """
-SELECT pokemon_id, trainer_id FROM pokemon.pokemon_trainers
+SELECT pokemon_id, trainer_id FROM pokemon_trainers
 WHERE trainer_id = ? AND pokemon_id = ?
 """
 
@@ -28,6 +28,6 @@ WHERE trainer_id = ? AND pokemon_id = ?
 """
 
 EVOLVE_POKEMON = """
-UPDATE pokemon.pokemon_trainers SET pokemon_id = ?
+UPDATE pokemon_trainers SET pokemon_id = ?
 WHERE trainer_id = ? AND pokemon_id = ?;
 """
