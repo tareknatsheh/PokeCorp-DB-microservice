@@ -19,10 +19,10 @@ def get_pokemon(type: Optional[str] = None, trainer_id: Optional[int] = None):
         json: pokemon details
     """
     result = None
-    if not type:
+    if not type or type == "all":
         if not trainer_id:
             # get all pokemons
-            raise HTTPException(status_code=400, detail=f"There are too many pokemons, please specify a type and/or a trainer")
+            result = db.pokemon.get_all()
         else:
             # get by trainer
             result = db.pokemon.get_by_trainer_id(trainer_id)

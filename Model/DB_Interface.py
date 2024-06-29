@@ -16,6 +16,10 @@ class DB_Interface(ABC):
     #     pass
 
     @abstractmethod
+    def get_all_pokemons(self) -> dict:
+        pass
+
+    @abstractmethod
     def add_new_pokemon(self, new_pokemon: Pokemon) -> Pokemon:
         pass
 

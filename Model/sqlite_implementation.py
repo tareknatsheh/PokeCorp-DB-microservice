@@ -14,6 +14,16 @@ class SQLite_repo(DB_Interface):
         self.cursor = None
     
     @handle_database_errors
+    def get_all_pokemons(self) -> list[dict]:
+        if not self.cursor:
+            raise Exception("cursor not initialized")
+        
+        self.cursor.execute(pok_queries.GET_ALL)
+        result = self.cursor.fetchall()
+        result = [{"id": p[0], "name": p[1], "height": p[2], "weight": p[3]} for p in result]
+        return result
+    
+    @handle_database_errors
     def get_pokemons_by_type(self, type: str) -> list[dict]:
         if not self.cursor:
             raise Exception("cursor not initialized")
